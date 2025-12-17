@@ -1,43 +1,62 @@
 import streamlit as st
 
 # 1. Page Configuration
-st.set_page_config(page_title="Foundations AI Hub", page_icon="🌍", layout="wide")
+st.set_page_config(
+    page_title="Foundations AI Hub",
+    page_icon="🌍",
+    layout="wide"
+)
 
-# 2. Sidebar Navigation (Fixing the KeyError)
+# 2. Sidebar Navigation
 with st.sidebar:
     st.title("💠 AI Ecosystem")
-    
-    # We use the label "Home" but don't force the URL link to 'hub.py' 
-    # if it's already the page we are on.
-    if st.button("🏠 Back to Home"):
-        st.switch_page("hub.py")
-        
     st.markdown("---")
     st.write("🌍 **Industry Modules**")
     
-    # These are the direct links to your sub-pages
+    # This block tries to find your pages. 
+    # If the first way fails, it automatically tries the second way.
     try:
         st.page_link("pages/1_Guardian.py", label="1. The Guardian", icon="🛡️")
         st.page_link("pages/2_Architect.py", label="2. The Architect", icon="🏗️")
         st.page_link("pages/3_Synthesizer.py", label="3. The Synthesizer", icon="🎨")
         st.page_link("pages/4_Amplifier.py", label="4. The Amplifier", icon="📈")
-    except Exception as e:
-        st.error("Sidebar loading... please refresh.")
+    except:
+        try:
+            st.page_link("1_Guardian.py", label="1. The Guardian", icon="🛡️")
+            st.page_link("2_Architect.py", label="2. The Architect", icon="🏗️")
+            st.page_link("3_Synthesizer.py", label="3. The Synthesizer", icon="🎨")
+            st.page_link("4_Amplifier.py", label="4. The Amplifier", icon="📈")
+        except:
+            st.error("Navigation setup in progress...")
+            st.info("Check if files are inside the 'pages' folder on GitHub.")
 
     st.markdown("---")
-    st.info("Foundations AI v1.0")
+    st.info("Foundations AI v1.0 | Global Industry OS")
 
-# 3. Main Dashboard Content
-st.title("🌍 Foundations AI: Global Hub")
-st.subheader("System Dashboard")
-
-col1, col2, col3 = st.columns(3)
-col1.metric("Status", "Online")
-col2.metric("Modules", "4 Active")
-col3.metric("Security", "Verified")
+# 3. Main Dashboard Interface
+st.title("🌍 Foundations AI: Global Ecosystem Hub")
+st.subheader("The Industry 4.0 Operating System for Responsible AI")
 
 st.markdown("""
 ---
-### Welcome to the Operating System for Responsible AI.
-Select an industry module from the sidebar to launch a specific AI auditor or generator.
+### Welcome to the Unified AI Dashboard
+This platform provides high-end AI services across all sectors. 
+Use the sidebar on the left to navigate between our core pillars:
+
+* **🛡️ The Guardian:** Ethics & Fairness Auditor (Healthcare/Finance)
+* **🏗️ The Architect:** Predictive Model Generator (Manufacturing/Logistics)
+* **🎨 The Synthesizer:** Inclusive Content Lab (Marketing/Creators)
+* **📈 The Amplifier:** ROI & Ad-Tech Optimizer (Business Growth)
+---
 """)
+
+# 4. Live System Metrics
+col1, col2, col3 = st.columns(3)
+with col1:
+    st.metric(label="System Status", value="Active", delta="Operational")
+with col2:
+    st.metric(label="Global Coverage", value="100%", delta="Live")
+with col3:
+    st.metric(label="MLOps Engine", value="Connected", delta="Ready")
+
+st.info("👈 Use the 'Industry Modules' menu in the sidebar to explore specific tools.")
