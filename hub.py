@@ -1,44 +1,30 @@
 import streamlit as st
+import os
 
-# 1. Page Configuration
-st.set_page_config(
-    page_title="Foundations AI Hub",
-    page_icon="🌍",
-    layout="wide"
-)
+st.set_page_config(page_title="Foundations AI Hub", page_icon="🌍", layout="wide")
 
-# 2. Sidebar Navigation (Manual Override)
-with st.sidebar:
-    st.title("Navigation")
-    st.page_link("hub.py", label="Home", icon="🏠")
-    st.markdown("---")
-    st.write("🌍 **Industry Modules**")
-    
-    # These lines force the pages to be clickable buttons
-    st.page_link("pages/1_Guardian.py", label="1. The Guardian", icon="🛡️")
-    st.page_link("pages/2_Architect.py", label="2. The Architect", icon="🏗️")
-    st.page_link("pages/3_Synthesizer.py", label="3. The Synthesizer", icon="🎨")
-    st.page_link("pages/4_Amplifier.py", label="4. The Amplifier", icon="📈")
-    
-    st.markdown("---")
-    st.info("Foundations AI v1.0 | Global Industry OS")
+# This part ensures the sidebar navigation is clickable
+st.sidebar.title("💠 AI Ecosystem")
 
-# 3. Main Interface
-st.title("🌍 Foundations AI: Global Ecosystem Hub")
-st.subheader("The Industry 4.0 Operating System for Responsible AI")
+# Manual Navigation Links
+st.sidebar.page_link("hub.py", label="Home Dashboard", icon="🏠")
+st.sidebar.markdown("---")
+st.sidebar.write("🔒 **Safety & Ethics**")
+st.sidebar.page_link("pages/1_Guardian.py", label="The Guardian", icon="🛡️")
 
-st.markdown("""
----
-### Welcome to the Unified AI Dashboard
-The core modules are now active. Please use the **buttons in the sidebar** to navigate.
----
-""")
+st.sidebar.write("⚙️ **Engineering**")
+st.sidebar.page_link("pages/2_Architect.py", label="The Architect", icon="🏗️")
 
-# 4. Live System Metrics
-col1, col2, col3 = st.columns(3)
-with col1:
-    st.metric(label="System Status", value="Active", delta="Operational")
-with col2:
-    st.metric(label="Global Coverage", value="100%", delta="Live")
-with col3:
-    st.metric(label="MLOps Engine", value="Connected", delta="Ready")
+st.sidebar.write("📣 **Growth & Content**")
+st.sidebar.page_link("pages/3_Synthesizer.py", label="The Synthesizer", icon="🎨")
+st.sidebar.page_link("pages/4_Amplifier.py", label="The Amplifier", icon="📈")
+
+# Main Page Content
+st.title("🌍 Foundations AI: Global Hub")
+st.info("The Industry 4.0 Operating System is live. Select a module from the sidebar to begin.")
+
+# Quick-view Metrics
+c1, c2, c3 = st.columns(3)
+c1.metric("System", "Online")
+c2.metric("Modules", "4 Active")
+c3.metric("Security", "Verified")
