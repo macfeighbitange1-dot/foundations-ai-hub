@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 
 # 1. Page Configuration
 st.set_page_config(
@@ -11,27 +12,31 @@ st.set_page_config(
 with st.sidebar:
     st.title("💠 AI Ecosystem")
     st.markdown("---")
+    
+    st.write("🏠 **Main Menu**")
+    st.page_link("hub.py", label="Home Dashboard", icon="🏠")
+    
+    st.markdown("---")
     st.write("🌍 **Industry Modules**")
     
-    # This block tries to find your pages. 
-    # If the first way fails, it automatically tries the second way.
+    # These paths are based on your verified GitHub folder 'pages'
     try:
-        st.page_link("pages/1_Guardian.py", label="1. The Guardian", icon="🛡️")
-        st.page_link("pages/2_Architect.py", label="2. The Architect", icon="🏗️")
-        st.page_link("pages/3_Synthesizer.py", label="3. The Synthesizer", icon="🎨")
-        st.page_link("pages/4_Amplifier.py", label="4. The Amplifier", icon="📈")
-    except:
-        try:
-            st.page_link("1_Guardian.py", label="1. The Guardian", icon="🛡️")
-            st.page_link("2_Architect.py", label="2. The Architect", icon="🏗️")
-            st.page_link("3_Synthesizer.py", label="3. The Synthesizer", icon="🎨")
-            st.page_link("4_Amplifier.py", label="4. The Amplifier", icon="📈")
-        except:
-            st.error("Navigation setup in progress...")
-            st.info("Check if files are inside the 'pages' folder on GitHub.")
+        st.page_link("pages/1_Guardian.py", label="The Guardian", icon="🛡️")
+        st.page_link("pages/2_Architect.py", label="The Architect", icon="🏗️")
+        st.page_link("pages/3_Synthesizer.py", label="The Synthesizer", icon="🎨")
+        st.page_link("pages/4_Amplifier.py", label="The Amplifier", icon="📈")
+    except Exception as e:
+        st.error("Sidebar Link Error")
+        st.caption("Try rebooting via the 'Manage App' menu.")
 
     st.markdown("---")
     st.info("Foundations AI v1.0 | Global Industry OS")
+    
+    # Diagnostic tool (hidden in small text) to check folder health
+    if os.path.exists("pages"):
+        st.caption("✅ Pages folder detected")
+    else:
+        st.caption("❌ Pages folder not found")
 
 # 3. Main Dashboard Interface
 st.title("🌍 Foundations AI: Global Ecosystem Hub")
@@ -59,4 +64,4 @@ with col2:
 with col3:
     st.metric(label="MLOps Engine", value="Connected", delta="Ready")
 
-st.info("👈 Use the 'Industry Modules' menu in the sidebar to explore specific tools.")
+st.info("👈 Select a module from the sidebar to launch the specific AI tool.")
