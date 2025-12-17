@@ -1,30 +1,43 @@
 import streamlit as st
-import os
 
+# 1. Page Configuration
 st.set_page_config(page_title="Foundations AI Hub", page_icon="🌍", layout="wide")
 
-# This part ensures the sidebar navigation is clickable
-st.sidebar.title("💠 AI Ecosystem")
+# 2. Sidebar Navigation (Fixing the KeyError)
+with st.sidebar:
+    st.title("💠 AI Ecosystem")
+    
+    # We use the label "Home" but don't force the URL link to 'hub.py' 
+    # if it's already the page we are on.
+    if st.button("🏠 Back to Home"):
+        st.switch_page("hub.py")
+        
+    st.markdown("---")
+    st.write("🌍 **Industry Modules**")
+    
+    # These are the direct links to your sub-pages
+    try:
+        st.page_link("pages/1_Guardian.py", label="1. The Guardian", icon="🛡️")
+        st.page_link("pages/2_Architect.py", label="2. The Architect", icon="🏗️")
+        st.page_link("pages/3_Synthesizer.py", label="3. The Synthesizer", icon="🎨")
+        st.page_link("pages/4_Amplifier.py", label="4. The Amplifier", icon="📈")
+    except Exception as e:
+        st.error("Sidebar loading... please refresh.")
 
-# Manual Navigation Links
-st.sidebar.page_link("hub.py", label="Home Dashboard", icon="🏠")
-st.sidebar.markdown("---")
-st.sidebar.write("🔒 **Safety & Ethics**")
-st.sidebar.page_link("pages/1_Guardian.py", label="The Guardian", icon="🛡️")
+    st.markdown("---")
+    st.info("Foundations AI v1.0")
 
-st.sidebar.write("⚙️ **Engineering**")
-st.sidebar.page_link("pages/2_Architect.py", label="The Architect", icon="🏗️")
-
-st.sidebar.write("📣 **Growth & Content**")
-st.sidebar.page_link("pages/3_Synthesizer.py", label="The Synthesizer", icon="🎨")
-st.sidebar.page_link("pages/4_Amplifier.py", label="The Amplifier", icon="📈")
-
-# Main Page Content
+# 3. Main Dashboard Content
 st.title("🌍 Foundations AI: Global Hub")
-st.info("The Industry 4.0 Operating System is live. Select a module from the sidebar to begin.")
+st.subheader("System Dashboard")
 
-# Quick-view Metrics
-c1, c2, c3 = st.columns(3)
-c1.metric("System", "Online")
-c2.metric("Modules", "4 Active")
-c3.metric("Security", "Verified")
+col1, col2, col3 = st.columns(3)
+col1.metric("Status", "Online")
+col2.metric("Modules", "4 Active")
+col3.metric("Security", "Verified")
+
+st.markdown("""
+---
+### Welcome to the Operating System for Responsible AI.
+Select an industry module from the sidebar to launch a specific AI auditor or generator.
+""")
