@@ -59,3 +59,38 @@ with col3:
     st.metric(label="MLOps Engine", value="Connected", delta="Ready")
 
 st.success("👈 Select a module from the sidebar to begin.")
+
+import streamlit as st
+import datetime
+
+# User Profile for Addictiveness (stored in session_state)
+if 'user_profile' not in st.session_state:
+    st.session_state.user_profile = {
+        'points': 0,  # Earn points for actions
+        'badges': [],  # Unlock badges like 'Fraud Fighter'
+        'streak': 0,   # Daily use streak
+        'last_login': None
+    }
+
+# Check and update streak
+today = datetime.date.today()
+if st.session_state.user_profile['last_login'] != today:
+    if st.session_state.user_profile['last_login'] == today - datetime.timedelta(days=1):
+        st.session_state.user_profile['streak'] += 1
+    else:
+        st.session_state.user_profile['streak'] = 1
+    st.session_state.user_profile['last_login'] = today
+
+# Sidebar Profile Display (addictive feedback)
+with st.sidebar:
+    st.markdown("---")
+    st.subheader("Your Profile")
+    st.write(f"Points: {st.session_state.user_profile['points']}")
+    st.write(f"Streak: {st.session_state.user_profile['streak']} days 🔥")
+    if st.session_state.user_profile['badges']:
+        st.write("Badges: " + ", ".join(st.session_state.user_profile['badges']))
+    if st.session_state.user_profile['streak'] % 7 == 0:
+        st.balloons()  # Fun reward animation
+        st.success("7-day streak! +50 points unlocked!")
+        st.session_state.user_profile['points'] += 50
+
