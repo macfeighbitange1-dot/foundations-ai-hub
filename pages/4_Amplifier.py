@@ -233,8 +233,25 @@ with colw1:
 with colw2:
     st.metric("Delta Profit", f"${new_metrics['profit'] - metrics_a['profit']:,}")
 
-# 13. Footer / next steps
+# 13. Product roadmap & feature gating
 st.markdown("---")
-st.write("Need more? I can: \n- add lifetime value (LTV) and repeat purchase modelling, \n- wire this to a campaign data source, or \n- create an A/B test simulator with statistical significance calculations.")
+st.subheader("Roadmap & feature availability")
+
+roadmap_col1, roadmap_col2 = st.columns(2)
+with roadmap_col1:
+    st.success("✅ Core Amplifier (Active)")
+    st.write("- ROI & ROAS calculation
+- Funnel-based modelling
+- Scenario comparison
+- Sensitivity analysis
+- What-if simulations")
+
+with roadmap_col2:
+    st.warning("🔒 Advanced features (Unlock later)")
+    st.write("- LTV & repeat-purchase modelling (requires retention data)
+- A/B significance testing (requires live traffic)
+- Pitch-ready export views (enable when sharing externally)")
+
+st.caption("Strategy: Ship strong fundamentals first. Advanced features unlock only when data maturity justifies them.")
 
 # End of file
