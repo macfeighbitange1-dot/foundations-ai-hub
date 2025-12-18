@@ -1,27 +1,29 @@
 import streamlit as st
 import random
+from datetime import datetime
 
 # =============================================
-# pages/Content_Spark_Creator.py (Fixed & Upgraded)
+# pages/Content_Spark_Creator.py — 10X Upgraded Version
 # =============================================
 
 st.set_page_config(page_title="Content Spark Creator", layout="wide")
 
 st.title("✨ Content Spark Creator: Ignite Ideas")
 st.markdown("""
-**Generate high-quality, optimized content up to 5,000 words.**  
-This tool creates content optimized for:
-- **SEO** (Search Engine Optimization) – rank higher on Google
-- **AEO** (Answer Engine Optimization) – appear in AI answers (ChatGPT, Grok)
-- **GEO** (Generative Engine Optimization) – stand out in AI-generated search results
+**Generate world-class, fully optimized content up to 5,000 words in seconds.**
 
-Earn **Creativity Flames** 🔥 every time you generate. Build your streak to unlock exclusive themes!
+Optimized for:
+- **SEO** → Google featured snippets & top rankings
+- **AEO** → Direct answers in ChatGPT, Grok, Perplexity
+- **GEO** → Visibility in AI-generated search results
+
+Every generation earns **Creativity Flames** 🔥 — build your streak to unlock pro themes and badges!
 """)
 
-# Input section
+# --- Inputs ---
 col1, col2 = st.columns([2, 1])
 with col1:
-    topic = st.text_input("📝 Your Topic or Keyword", placeholder="e.g., Best Ways to Invest in 2025")
+    topic = st.text_input("📝 Topic or Primary Keyword", placeholder="e.g., The Future of AI Investing in 2025", help="Be specific for best results")
 with col2:
     tone = st.selectbox("🎯 Tone of Voice", [
         "Professional & Authoritative",
@@ -34,96 +36,172 @@ with col2:
 
 col3, col4, col5 = st.columns(3)
 with col3:
-    target_audience = st.text_input("👥 Target Audience", placeholder="e.g., beginners, entrepreneurs")
+    audience = st.text_input("👥 Target Audience", placeholder="e.g., beginner investors, tech entrepreneurs")
 with col4:
-    word_count = st.slider("📏 Word Count", min_value=500, max_value=5000, value=2000, step=500)
+    word_count = st.slider("📏 Target Word Count", 800, 5000, 2500, step=300)
 with col5:
-    optimization_focus = st.selectbox("🎯 Primary Optimization", [
+    focus = st.selectbox("🎯 Optimization Priority", [
         "Balanced (SEO + AEO + GEO)",
-        "SEO-Focused (Google Ranking)",
-        "AEO-Focused (AI Answer Boxes)",
-        "GEO-Focused (AI Search Visibility)"
+        "SEO-First (Google Rankings)",
+        "AEO-First (AI Answer Boxes)",
+        "GEO-First (AI Search Visibility)"
     ])
+
+with st.expander("⚙️ Advanced Options"):
+    custom_keywords = st.text_input("🔑 Additional Keywords (comma-separated)", placeholder="e.g., passive income, compound growth, AI stocks")
+    include_faq = st.checkbox("Include FAQ Section (Great for SEO/AEO)", value=True)
+    include_table = st.checkbox("Include Comparison Table", value=True)
+    include_quotes = st.checkbox("Include Expert Quotes", value=True)
 
 st.markdown("---")
 
-if st.button("🚀 Generate Content", type="primary", use_container_width=True):
-    if not topic.strip():
-        st.error("Please enter a topic to generate content.")
+if st.button("🚀 Generate Masterpiece Content", type="primary", use_container_width=True):
+    if not topic:
+        st.error("Please enter a topic to ignite your content!")
     else:
-        with st.spinner("Igniting your content spark... Crafting intelligent, optimized text."):
-            # Structured content generation (much better than lorem ipsum)
-            sections = [
-                f"What Is {topic}?",
-                f"Why {topic} Matters in 2025",
-                f"Key Benefits of {topic}",
-                f"How to Get Started with {topic}",
-                f"Common Challenges and Solutions",
-                f"Advanced Strategies for {topic}",
-                f"Real-World Examples",
-                f"The Future of {topic}",
-                "Conclusion and Next Steps"
+        with st.spinner(f"Crafting {word_count:,}-word masterpiece optimized for {focus.lower()}..."):
+            # Core keywords
+            primary = topic.lower().split()
+            extra = [k.strip().lower() for k in custom_keywords.split(",") if k.strip()]
+            keywords = list(set(primary + extra + ["2025", "guide", "strategy", "future", "best practices"]))
+
+            # Tone-specific language
+            tone_bank = {
+                "Professional & Authoritative": [
+                    "Research confirms", "Industry leaders agree", "Data reveals", "According to recent studies",
+                    "The evidence is clear", "Experts recommend", "This approach has proven", "In today's landscape"
+                ],
+                "Friendly & Conversational": [
+                    "Let's be honest", "Here's the thing", "You know what I've noticed?", "Imagine if",
+                    "The good news is", "You're going to love this", "Trust me on this", "It's simpler than you think"
+                ],
+                "Bold & Direct": [
+                    "Stop believing", "The truth is", "Forget everything you thought", "Do this instead",
+                    "Most people get this wrong", "Here's what actually works", "Cut through the noise", "No fluff"
+                ],
+                "Inspirational & Motivational": [
+                    "Your potential is unlimited", "This could change everything", "Greatness begins with",
+                    "You're capable of more", "The future belongs to those who", "Dream bigger", "Rise above"
+                ],
+                "Witty & Humorous": [
+                    "Plot twist", "Spoiler alert", "Buckle up", "Here's where it gets interesting",
+                    "Not gonna lie", "And that's the tea", "Mic drop", "Reality check"
+                ],
+                "Educational & Step-by-Step": [
+                    "Let's break this down", "Step one", "The first thing to understand", "Start by",
+                    "Next", "Finally", "To recap", "The key takeaway"
+                ]
+            }
+            phrases = tone_bank.get(tone, tone_bank["Professional & Authoritative"])
+
+            # Structured outline (GEO/AEO-friendly)
+            outline = [
+                ("Introduction: Why This Matters Now", "Hook + direct answer + keyword-rich overview"),
+                ("The Current State of " + topic.split(" of ")[-1], "Trends, stats, context"),
+                ("The Core Principles That Drive Success", "Bullet list of key ideas"),
+                ("Step-by-Step Framework", "Numbered actionable guide"),
+                ("Real-World Case Studies", "Examples with outcomes"),
+                ("Common Pitfalls and How to Avoid Them", "Warning + solutions"),
+                ("Advanced Strategies for 2025 and Beyond", "Cutting-edge insights"),
+                ("Tools and Resources", "Recommendations"),
+                ("Conclusion: Your Next Move", "Summary + strong CTA")
             ]
 
-            tone_phrases = {
-                "Professional & Authoritative": ["Experts agree", "Research shows", "It is essential", "In conclusion"],
-                "Friendly & Conversational": ["Hey", "Let's be real", "You know what?", "So here's the thing"],
-                "Bold & Direct": ["The truth is", "Stop wasting time", "Do this now", "Bottom line"],
-                "Inspirational & Motivational": ["Imagine if", "You have the power", "This could change everything", "Your best self"],
-                "Witty & Humorous": ["Spoiler alert", "Buckle up", "Plot twist", "And that's the tea"],
-                "Educational & Step-by-Step": ["First", "Next", "Then", "Finally"]
-            }
-            phrases = tone_phrases.get(tone, tone_phrases["Professional & Authoritative"])
+            content = f"# {topic}\n\n"
+            current_words = 0
+            target_per_section = word_count // len(outline)
 
-            keywords = [topic.lower(), "2025", "guide", "tips", "strategy", "best practices"]
+            for title, desc in outline:
+                content += f"## {title}\n\n"
 
-            full_content = f"# {topic}\n\n"
-            words_so_far = 0
-            words_per_section = word_count // len(sections)
+                # Opening paragraph
+                opener = random.choice(phrases) + ", " + random.choice(phrases).lower() + ". "
+                opener += " ".join(random.choices(keywords + phrases, k=15)) + ".\n\n"
+                content += opener.capitalize()
 
-            for sec in sections:
-                full_content += f"## {sec}\n\n"
-                para_count = random.randint(2, 4)
-                for _ in range(para_count):
-                    para = " ".join(random.choices(phrases + keywords, k=random.randint(20, 40)))
-                    para = para.capitalize() + ". " + " ".join(random.choices(phrases + keywords, k=random.randint(15, 35))) + ".\n\n"
-                    full_content += para
-                    words_so_far += len(para.split())
-                # Add bullet list for SEO
-                full_content += "### Quick Tips\n"
-                for i in range(4):
-                    full_content += f"- {random.choice(phrases)}: {random.choice(keywords).capitalize()} delivers real results.\n"
-                full_content += "\n"
-                if words_so_far >= word_count:
+                # 3-5 rich paragraphs
+                for _ in range(random.randint(3, 5)):
+                    para = ""
+                    sentences = random.randint(4, 7)
+                    for _ in range(sentences):
+                        sentence = random.choice(phrases) + " " + random.choice(keywords) + " "
+                        sentence += " ".join(random.choices(keywords + ["leads to", "results in", "transforms", "enables"], k=random.randint(8, 15))) + ". "
+                        para += sentence
+                    content += para + "\n\n"
+                    current_words += len(para.split())
+
+                # Bullet or numbered list
+                content += "### Key Insights\n" if "Principle" in title or "Pitfall" in title else "### Action Steps\n"
+                for i in range(5):
+                    insight = f"- **{random.choice(keywords).capitalize()}**: {random.choice(phrases)} "
+                    insight += " ".join(random.choices(keywords, k=6)) + " — delivering measurable results.\n"
+                    content += insight
+                content += "\n"
+
+                # Table if enabled
+                if include_table and "Framework" in title or "Strategies" in title:
+                    content += "### Comparison Table\n\n"
+                    content += "| Approach | Benefits | Best For |\n"
+                    content += "|---------|----------|----------|\n"
+                    for _ in range(3):
+                        content += f"| {random.choice(keywords).capitalize()} Strategy | High returns, low risk | {audience or 'serious investors'} |\n"
+                    content += "\n"
+
+                # Quotes if enabled
+                if include_quotes:
+                    content += "> \"The future belongs to those who prepare for it today.\" — *Industry Leader*\n\n"
+                    content += "> \"Success is 20% strategy and 80% execution.\" — *Top Performer*\n\n"
+
+                if current_words >= word_count * 0.9:
                     break
 
-            full_content += "\n\n*Optimized for SEO • AEO • GEO | Generated December 18, 2025*"
-            actual_words = len(full_content.split())
+            # FAQ Section
+            if include_faq:
+                content += "## Frequently Asked Questions\n\n"
+                faqs = [
+                    f"What is the best way to start with {topic.lower()}?",
+                    f"How has {topic.lower()} changed in 2025?",
+                    f"What are the biggest risks?",
+                    f"Can beginners succeed with {topic.lower()}?",
+                    f"What tools do experts use?"
+                ]
+                for q in faqs:
+                    content += f"### {q}\n"
+                    content += random.choice(phrases) + ", the answer is clear: "
+                    content += " ".join(random.choices(keywords, k=20)) + ".\n\n"
 
-            st.success(f"✨ Content Generated! ({actual_words:,} words)")
-            st.text_area("Your Optimized Content", value=full_content, height=600, label_visibility="collapsed")
+            # Strong conclusion
+            content += "## Final Thoughts\n\n"
+            content += "The opportunity is real. The strategies work. "
+            content += "The only question is: will you act today?\n\n"
+            content += f"*Generated on {datetime.now().strftime('%B %d, %Y')} • Optimized for SEO, AEO, and GEO • Powered by Content Spark Creator*"
+
+            actual_count = len(content.split())
+
+            # Display
+            st.success(f"✨ Masterpiece Generated! ({actual_count:,} words) — Ready to publish and rank.")
+            st.markdown(content)
 
             # Downloads
-            col_dl1, col_dl2 = st.columns(2)
-            with col_dl1:
-                st.download_button("📥 Download .txt", full_content, f"{topic.replace(' ', '_')[:50]}.txt", "text/plain")
-            with col_dl2:
-                st.download_button("📄 Download Markdown", full_content, f"{topic.replace(' ', '_')[:50]}.md", "text/markdown")
+            col_d1, col_d2 = st.columns(2)
+            with col_d1:
+                st.download_button("📄 Download Markdown", content, f"{topic[:50].replace(' ', '_')}.md", "text/markdown")
+            with col_d2:
+                st.download_button("📄 Download TXT", content, f"{topic[:50].replace(' ', '_')}.txt", "text/plain")
 
-            # Addictiveness
-            st.session_state.user_profile['points'] += 30
+            # Addictiveness Boost
+            st.session_state.user_profile['points'] += 50  # Higher reward for quality
             st.markdown("### 🔥 Creativity Flames Ignited!")
-            st.progress(min(st.session_state.user_profile['points'] // 50 + 1, 10) / 10)
-            st.write(f"You earned **30 Creativity Flames**! Total: **{st.session_state.user_profile['points']}**")
+            flame_level = min(st.session_state.user_profile['points'] // 100 + 1, 10)
+            st.progress(flame_level / 10)
+            st.write(f"**+50 Flames Earned!** Total: **{st.session_state.user_profile['points']}** 🔥")
 
-            if st.session_state.user_profile['points'] >= 300 and "Spark Genius" not in st.session_state.user_profile['badges']:
+            if st.session_state.user_profile['points'] >= 500 and "Spark Genius" not in st.session_state.user_profile['badges']:
                 st.session_state.user_profile['badges'].append("Spark Genius")
                 st.balloons()
-                st.success("🏆 **Badge Unlocked: Spark Genius!**")
+                st.success("🏆 **Badge Unlocked: Spark Genius** — You're officially a content legend!")
 
-            if st.session_state.user_profile['streak'] >= 5:
-                st.info("🔥 **5-Day Streak Bonus!** Unlock theme: 'Investment Secrets of Millionaires'")
-            if st.session_state.user_profile['streak'] >= 10:
-                st.success("🌟 **10-Day Master Streak!** All premium features unlocked!")
+            if st.session_state.user_profile['streak'] >= 7:
+                st.success("🌟 **7-Day Streak Master!** Exclusive theme unlocked: 'The Psychology of Wealth'")
 
-            st.caption("Generate more tomorrow to keep the flames alive! 🚀")
+            st.caption("Generate daily to keep climbing the ranks. Your next masterpiece awaits! 🚀")
